@@ -26,10 +26,11 @@ mongoose
 
 app.use(
   cors({
-    origin: process.env.CLIENT_URL ,
+    origin: process.env.CLIENT_URL,
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization']
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+    exposedHeaders: ['set-cookie']
   })
 );
 
@@ -55,8 +56,8 @@ app.use(
     saveUninitialized: false,
     store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI! }),
     cookie: {
-      sameSite:'lax',
       maxAge: 24 * 60 * 60 * 1000, // 24 hours
+      httpOnly: true,
     },
   })
 );
